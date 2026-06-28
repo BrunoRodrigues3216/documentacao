@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¡Hola! Docs → ClickUp</title>
+<title>→ ClickUp</title>
 <style>
   :root {
     --bg: #0f1117;
@@ -36,6 +36,24 @@
     display: flex;
     flex-direction: column;
   }
+
+  /* TELA DE LOGIN */
+  #login-screen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 9999;
+  }
+  .login-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 340px;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .hidden { display: none !important; }
 
   /* HEADER */
   header {
@@ -200,6 +218,7 @@
   input[type="url"],
   input[type="email"],
   input[type="date"],
+  input[type="password"],
   textarea,
   select {
     background: var(--bg);
@@ -348,7 +367,7 @@
 
   .modal-footer { margin-top: 1.25rem; display: flex; justify-content: flex-end; gap: 8px; }
 
-  /* SEND PANEL (última etapa) */
+  /* SEND PANEL */
   .send-panel {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -412,465 +431,520 @@
     .field-row { grid-template-columns: 1fr; }
   }
 </style>
+  <link rel="icon" type="image/png" href="./image__7_-removebg-preview.png" />
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <div class="logo-dot">¡</div>
-    Hola Docs
-  </div>
-  <button class="config-btn" onclick="openConfig()">
-    ⚙ Configurar ClickUp
-  </button>
-</header>
-
-<div class="modal-overlay" id="configModal">
-  <div class="modal">
-    <div class="modal-title">
-      Configuração do ClickUp
-      <button class="close-btn" onclick="closeConfig()">×</button>
+<div id="login-screen">
+  <div class="login-card">
+    <div style="font-size: 18px; font-weight: 600; text-align: center; color: var(--text);">
+      <span style="color: var(--accent);">¡</span> Hola Docs
     </div>
-    <div class="field" style="margin-bottom:1rem">
-      <label>API Key do ClickUp</label>
-      <input type="text" id="cfg-apikey" placeholder="pk_xxxxxxxxxxxxxxxxxxxxxxxx">
-      <div class="modal-hint">
-        Acesse <a href="https://app.clickup.com/settings/apps" target="_blank">app.clickup.com → Settings → Apps</a> e copie seu Personal API Token.
-      </div>
+    <div class="field">
+      <label>Usuário</label>
+      <input type="text" id="login-user" placeholder="Seu usuário">
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeConfig()">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveConfig()">Salvar</button>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" id="login-pass" placeholder="Sua senha">
+    </div>
+    <button class="btn btn-primary" onclick="handleLogin()">Acessar</button>
+    <div id="login-error" style="color: var(--red); font-size: 12px; text-align: center; display: none;">
+      Credenciais incorretas.
     </div>
   </div>
 </div>
 
-<div class="app">
-
-  <nav class="sidebar">
-    <div class="step-list">
-      <button class="step-item active" id="nav-0" onclick="goTo(0)">
-        <span class="step-num">1</span> Kickoff
-      </button>
-      <button class="step-item" id="nav-1" onclick="goTo(1)">
-        <span class="step-num">2</span> Portfólio
-      </button>
-      <button class="step-item" id="nav-2" onclick="goTo(2)">
-        <span class="step-num">3</span> Instalação
-      </button>
-      <button class="step-item" id="nav-3" onclick="goTo(3)">
-        <span class="step-num">4</span> Capacitação
-      </button>
-      <button class="step-item" id="nav-4" onclick="goTo(4)">
-        <span class="step-num">5</span> Canais
-      </button>
-      <button class="step-item" id="nav-5" onclick="goTo(5)">
-        <span class="step-num">6</span> Finalização
-      </button>
-      <button class="step-item" id="nav-6" onclick="goTo(6)">
-        <span class="step-num">↗</span> Enviar
-      </button>
+<div id="app-content" class="hidden">
+  <header>
+    <div class="logo">
+      <div class="logo-dot">¡</div>
+      Hola Docs
     </div>
-  </nav>
+    <button class="config-btn" onclick="openConfig()">
+      ⚙ Configurar ClickUp
+    </button>
+  </header>
 
-  <main class="main">
-
-    <div class="section-card active" id="step-0">
-      <div class="section-header">
-        <div class="section-icon">📋</div>
-        <div>
-          <div class="section-title">Kickoff realizado</div>
-          <div class="section-sub">Informações iniciais do cliente</div>
+  <div class="modal-overlay" id="configModal">
+    <div class="modal">
+      <div class="modal-title">
+        Configuração do ClickUp
+        <button class="close-btn" onclick="closeConfig()">×</button>
+      </div>
+      <div class="field" style="margin-bottom:1rem">
+        <label>API Key do ClickUp</label>
+        <input type="text" id="cfg-apikey" placeholder="pk_xxxxxxxxxxxxxxxxxxxxxxxx">
+        <div class="modal-hint">
+          Acesse <a href="https://app.clickup.com/settings/apps" target="_blank">app.clickup.com → Settings → Apps</a> e copie seu Personal API Token.
         </div>
       </div>
-      <div class="field-group">
-        <div class="field-row">
-          <div class="field">
-            <label>Nome do cliente</label>
-            <input type="text" id="k-cliente" placeholder="Ex: Empresa ABC">
-          </div>
-          <div class="field">
-            <label>Link ¡Hola!</label>
-            <input type="url" id="k-link" placeholder="empresa.holasuite.com">
-          </div>
-        </div>
-        <div class="field">
-          <label>Sucursales</label>
-          <input type="text" id="k-sucursales" placeholder="Ex: 3 unidades — SP, RJ, BH">
-        </div>
-        <div class="field">
-          <label>Servicios ofrecidos</label>
-          <input type="text" id="k-servicios" placeholder="Ex: Atendimento ao cliente, Suporte técnico">
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Equipo</label>
-            <input type="text" id="k-equipo" placeholder="Ex: 5 atendentes, 1 supervisor">
-          </div>
-          <div class="field">
-            <label>Departamentos</label>
-            <input type="text" id="k-departamentos" placeholder="Ex: Vendas, Suporte">
-          </div>
-        </div>
-        <div class="field">
-          <label>Proceso a mejorar</label>
-          <input type="text" id="k-proceso" placeholder="Ex: Tempo de resposta no WhatsApp">
-        </div>
-        <div class="field">
-          <label>Observações</label>
-          <textarea id="k-obs" placeholder="Qualquer detalhe relevante do kickoff..."></textarea>
-        </div>
-      </div>
-      <div class="nav-btns">
-        <span></span>
-        <button class="btn btn-primary" onclick="next(0)">Próximo →</button>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeConfig()">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveConfig()">Salvar</button>
       </div>
     </div>
+  </div>
 
-    <div class="section-card" id="step-1">
-      <div class="section-header">
-        <div class="section-icon">✅</div>
-        <div>
-          <div class="section-title">Verificação de portfólio</div>
-          <div class="section-sub">Documentos e status de envio</div>
-        </div>
-      </div>
-      <div class="field-group">
-        <div class="field">
-          <label>Status do cliente</label>
-          <div class="radio-group" id="p-status-group">
-            <label class="radio-opt"><input type="radio" name="p-status" value="COM requisitos"> ✔ Com requisitos</label>
-            <label class="radio-opt"><input type="radio" name="p-status" value="SEM requisitos"> ✘ Sem requisitos</label>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label>ID do portfólio</label>
-            <input type="text" id="p-portfolio-id" placeholder="Ex: PORT-00123">
-          </div>
-          <div class="field">
-            <label>Site do cliente</label>
-            <input type="url" id="p-site" placeholder="https://...">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Conta Facebook</label>
-            <input type="text" id="p-facebook" placeholder="@pagina ou URL">
-          </div>
-          <div class="field">
-            <label>E-mail</label>
-            <input type="email" id="p-email" placeholder="contato@empresa.com">
-          </div>
-        </div>
-        <div class="field">
-          <label>Status de envio</label>
-          <div class="radio-group" id="p-envio-group">
-            <label class="radio-opt"><input type="radio" name="p-envio" value="Enviado para verificação ✓"> Enviado ✓</label>
-            <label class="radio-opt"><input type="radio" name="p-envio" value="Pendente"> Pendente</label>
-          </div>
-        </div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn btn-ghost" onclick="prev(1)">← Voltar</button>
-        <button class="btn btn-primary" onclick="next(1)">Próximo →</button>
-      </div>
-    </div>
+  <div class="app">
 
-    <div class="section-card" id="step-2">
-      <div class="section-header">
-        <div class="section-icon">🔧</div>
-        <div>
-          <div class="section-title">Instalação realizada</div>
-          <div class="section-sub">Configurações e credenciais</div>
+    <nav class="sidebar">
+      <div class="step-list">
+        <button class="step-item active" id="nav-0" onclick="goTo(0)">
+          <span class="step-num">1</span> Kickoff
+        </button>
+        <button class="step-item" id="nav-1" onclick="goTo(1)">
+          <span class="step-num">2</span> Portfólio
+        </button>
+        <button class="step-item" id="nav-2" onclick="goTo(2)">
+          <span class="step-num">3</span> Instalação
+        </button>
+        <button class="step-item" id="nav-3" onclick="goTo(3)">
+          <span class="step-num">4</span> Capacitação
+        </button>
+        <button class="step-item" id="nav-4" onclick="goTo(4)">
+          <span class="step-num">5</span> Canais
+        </button>
+        <button class="step-item" id="nav-5" onclick="goTo(5)">
+          <span class="step-num">6</span> Finalização
+        </button>
+        <button class="step-item" id="nav-6" onclick="goTo(6)">
+          <span class="step-num">↗</span> Enviar
+        </button>
+      </div>
+    </nav>
+
+    <main class="main">
+
+      <div class="section-card active" id="step-0">
+        <div class="section-header">
+          <div class="section-icon">📋</div>
+          <div>
+            <div class="section-title">Kickoff realizado</div>
+            <div class="section-sub">Informações iniciais do cliente</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <div class="field">
+              <label>Nome do cliente</label>
+              <input type="text" id="k-cliente" placeholder="Ex: Empresa ABC">
+            </div>
+            <div class="field">
+              <label>Link ¡Hola!</label>
+              <input type="url" id="k-link" placeholder="empresa.holasuite.com">
+            </div>
+          </div>
+          <div class="field">
+            <label>Sucursales</label>
+            <input type="text" id="k-sucursales" placeholder="Ex: 3 unidades — SP, RJ, BH">
+          </div>
+          <div class="field">
+            <label>Servicios ofrecidos</label>
+            <input type="text" id="k-servicios" placeholder="Ex: Atendimento ao cliente, Suporte técnico">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Equipo</label>
+              <input type="text" id="k-equipo" placeholder="Ex: 5 atendentes, 1 supervisor">
+            </div>
+            <div class="field">
+              <label>Departamentos</label>
+              <input type="text" id="k-departamentos" placeholder="Ex: Vendas, Suporte">
+            </div>
+          </div>
+          <div class="field">
+            <label>Proceso a mejorar</label>
+            <input type="text" id="k-proceso" placeholder="Ex: Tempo de resposta no WhatsApp">
+          </div>
+          <div class="field">
+            <label>Observações</label>
+            <textarea id="k-obs" placeholder="Qualquer detalhe relevante do kickoff..."></textarea>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <span></span>
+          <button class="btn btn-primary" onclick="next(0)">Próximo →</button>
         </div>
       </div>
-      <div class="field-group">
-        <div class="field-row">
-          <div class="field">
-            <label>Link ¡Hola!</label>
-            <input type="text" id="i-link" placeholder="empresa.holasuite.com">
-          </div>
-          <div class="field">
-            <label>Clave / Senha</label>
-            <input type="text" id="i-clave" placeholder="Senha inicial gerada">
+
+      <div class="section-card" id="step-1">
+        <div class="section-header">
+          <div class="section-icon">✅</div>
+          <div>
+            <div class="section-title">Verificação de portfólio</div>
+            <div class="section-sub">Documentos e status de envio</div>
           </div>
         </div>
-        <div class="field-row">
+        <div class="field-group">
           <div class="field">
-            <label>País</label>
-            <input type="text" id="i-pais" placeholder="Ex: Brasil">
+            <label>Status do cliente</label>
+            <div class="radio-group" id="p-status-group">
+              <label class="radio-opt"><input type="radio" name="p-status" value="COM requisitos"> ✔ Com requisitos</label>
+              <label class="radio-opt"><input type="radio" name="p-status" value="SEM requisitos"> ✘ Sem requisitos</label>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>ID do portfólio</label>
+              <input type="text" id="p-portfolio-id" placeholder="Ex: PORT-00123">
+            </div>
+            <div class="field">
+              <label>Site do cliente</label>
+              <input type="url" id="p-site" placeholder="https://...">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Conta Facebook</label>
+              <input type="text" id="p-facebook" placeholder="@pagina ou URL">
+            </div>
+            <div class="field">
+              <label>E-mail</label>
+              <input type="email" id="p-email" placeholder="contato@empresa.com">
+            </div>
           </div>
           <div class="field">
-            <label>Plano</label>
-            <input type="text" id="i-plan" placeholder="Ex: Pro, Business...">
+            <label>Status de envio</label>
+            <div class="radio-group" id="p-envio-group">
+              <label class="radio-opt"><input type="radio" name="p-envio" value="Enviado para verificação ✓"> Enviado ✓</label>
+              <label class="radio-opt"><input type="radio" name="p-envio" value="Pendente"> Pendente</label>
+            </div>
           </div>
         </div>
-        <div class="field">
-          <label>Ações realizadas</label>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(1)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(1)">Próximo →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-2">
+        <div class="section-header">
+          <div class="section-icon">🔧</div>
+          <div>
+            <div class="section-title">Instalação realizada</div>
+            <div class="section-sub">Configurações e credenciais</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <div class="field">
+              <label>Link ¡Hola!</label>
+              <input type="text" id="i-link" placeholder="empresa.holasuite.com">
+            </div>
+            <div class="field">
+              <label>Clave / Senha</label>
+              <input type="text" id="i-clave" placeholder="Senha inicial gerada">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>País</label>
+              <input type="text" id="i-pais" placeholder="Ex: Brasil">
+            </div>
+            <div class="field">
+              <label>Plano</label>
+              <input type="text" id="i-plan" placeholder="Ex: Pro, Business...">
+            </div>
+          </div>
+          <div class="field">
+            <label>Ações realizadas</label>
+            <div class="checklist">
+              <label class="check-item"><input type="checkbox" id="i-chk1"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Plataforma configurada</span></label>
+              <label class="check-item"><input type="checkbox" id="i-chk2"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Integrações realizadas</span></label>
+              <label class="check-item"><input type="checkbox" id="i-chk3"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Senhas criadas e geradas</span></label>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Credenciais enviadas ao cliente</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="i-cred" value="SIM"> SIM</label>
+                <label class="radio-opt"><input type="radio" name="i-cred" value="NÃO"> NÃO</label>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Capacitações agendadas (datas e horários)</label>
+            <input type="text" id="i-caps" placeholder="Ex: 10/07 às 14h, 12/07 às 10h">
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(2)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(2)">Próximo →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-3">
+        <div class="section-header">
+          <div class="section-icon">🎓</div>
+          <div>
+            <div class="section-title">Capacitação realizada</div>
+            <div class="section-sub">Datas, participantes e conteúdos</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <div class="field">
+              <label>Data(s) da capacitação</label>
+              <input type="text" id="c-datas" placeholder="Ex: 10/07/2025, 12/07/2025">
+            </div>
+            <div class="field">
+              <label>Quantidade de capacitações</label>
+              <input type="text" id="c-qtd" placeholder="Ex: 2">
+            </div>
+          </div>
+          <div class="field">
+            <label>Participantes</label>
+            <textarea id="c-participantes" placeholder="Ex: João (supervisor), Maria (atendente), Pedro (TI)"></textarea>
+          </div>
+          <div class="field">
+            <label>Conteúdos abordados</label>
+            <textarea id="c-conteudos" placeholder="Ex: Uso do painel, configuração de respostas automáticas, integração WhatsApp"></textarea>
+          </div>
+          <div class="field">
+            <label>Avaliação do processo</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="c-aval" value="Excelente"> 😄 Excelente</label>
+              <label class="radio-opt"><input type="radio" name="c-aval" value="Boa"> 🙂 Boa</label>
+              <label class="radio-opt"><input type="radio" name="c-aval" value="Regular"> 😐 Regular</label>
+              <label class="radio-opt"><input type="radio" name="c-aval" value="Ruim"> 😕 Ruim</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Observações</label>
+            <textarea id="c-obs" placeholder="Dificuldades, destaques, próximos passos..."></textarea>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(3)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(3)">Próximo →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-4">
+        <div class="section-header">
+          <div class="section-icon">📱</div>
+          <div>
+            <div class="section-title">Ativação de canais</div>
+            <div class="section-sub">WhatsApp, Instagram, Facebook e PBX</div>
+          </div>
+        </div>
+        <div class="field-group">
+
+          <div class="section-badge">💬 WhatsApp</div>
+          <div class="field-row">
+            <div class="field">
+              <label>ID do número</label>
+              <input type="text" id="ch-wa-id" placeholder="Ex: 5511999999999">
+            </div>
+            <div class="field">
+              <label>Nome WhatsApp</label>
+              <input type="text" id="ch-wa-nome" placeholder="Ex: Empresa ABC Suporte">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Número</label>
+              <input type="text" id="ch-wa-num" placeholder="+55 11 99999-9999">
+            </div>
+            <div class="field">
+              <label>Templates</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="ch-wa-tpl" value="Cliente orientado ✅"> Orientado ✅</label>
+                <label class="radio-opt"><input type="radio" name="ch-wa-tpl" value="Pendente"> Pendente</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-badge">📸 Instagram</div>
+          <div class="field-row">
+            <div class="field">
+              <label>@ ativado</label>
+              <input type="text" id="ch-ig-at" placeholder="@empresa">
+            </div>
+            <div class="field">
+              <label>Estado</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="ch-ig-est" value="Ativo ✅"> Ativo ✅</label>
+                <label class="radio-opt"><input type="radio" name="ch-ig-est" value="Pendente"> Pendente</label>
+                <label class="radio-opt"><input type="radio" name="ch-ig-est" value="N/A"> N/A</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-badge">📘 Facebook</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Página ativada</label>
+              <input type="text" id="ch-fb-pag" placeholder="Nome ou URL da página">
+            </div>
+            <div class="field">
+              <label>Estado</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="ch-fb-est" value="Ativo ✅"> Ativo ✅</label>
+                <label class="radio-opt"><input type="radio" name="ch-fb-est" value="Pendente"> Pendente</label>
+                <label class="radio-opt"><input type="radio" name="ch-fb-est" value="N/A"> N/A</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-badge">📞 PBX</div>
+          <div class="field">
+            <label>Dados do técnico / informações</label>
+            <input type="text" id="ch-pbx" placeholder="Ex: Configurado com ramal 100, técnico João — ou N/A">
+          </div>
+
+          <div class="field">
+            <label>Observações gerais</label>
+            <textarea id="ch-obs" placeholder="Informações adicionais sobre os canais..."></textarea>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(4)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(4)">Próximo →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-5">
+        <div class="section-header">
+          <div class="section-icon">✔️</div>
+          <div>
+            <div class="section-title">Processo finalizado</div>
+            <div class="section-sub">Resumo e acompanhamento pós-ativação</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <div class="field">
+              <label>Data de conclusão</label>
+              <input type="date" id="f-data">
+            </div>
+            <div class="field">
+              <label>Cliente está operacional?</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="f-op" value="SIM"> SIM ✅</label>
+                <label class="radio-opt"><input type="radio" name="f-op" value="NÃO"> NÃO</label>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Etapas concluídas</label>
+            <div class="checklist">
+              <label class="check-item"><input type="checkbox" id="f-chk1"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Onboarding / Kickoff</span></label>
+              <label class="check-item"><input type="checkbox" id="f-chk2"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Verificação de portfólio</span></label>
+              <label class="check-item"><input type="checkbox" id="f-chk3"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Instalação</span></label>
+              <label class="check-item"><input type="checkbox" id="f-chk4"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Capacitação</span></label>
+              <label class="check-item"><input type="checkbox" id="f-chk5"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Ativação de canais</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Início do acompanhamento (3 dias úteis após conclusão)</label>
+            <input type="date" id="f-followup">
+          </div>
+          <div class="field">
+            <label>Status do acompanhamento</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Agendado"> Agendado</label>
+              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Em curso"> Em curso</label>
+              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Concluído"> Concluído</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Observações finais</label>
+            <textarea id="f-obs" placeholder="Feedback do cliente, pontos de atenção para suporte..."></textarea>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(5)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(5)">Ver e enviar →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-6">
+        <div class="section-header">
+          <div class="section-icon">↗</div>
+          <div>
+            <div class="section-title">Enviar para o ClickUp</div>
+            <div class="section-sub">Escolha quais etapas enviar e insira o ID da tarefa</div>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom: 1.5rem;">
+          <label>O que você deseja enviar?</label>
           <div class="checklist">
-            <label class="check-item"><input type="checkbox" id="i-chk1"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Plataforma configurada</span></label>
-            <label class="check-item"><input type="checkbox" id="i-chk2"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Integrações realizadas</span></label>
-            <label class="check-item"><input type="checkbox" id="i-chk3"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Senhas criadas e geradas</span></label>
+            <label class="check-item"><input type="checkbox" id="send-k" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">1. Kickoff</span></label>
+            <label class="check-item"><input type="checkbox" id="send-p" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">2. Portfólio</span></label>
+            <label class="check-item"><input type="checkbox" id="send-i" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">3. Instalação</span></label>
+            <label class="check-item"><input type="checkbox" id="send-c" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">4. Capacitação</span></label>
+            <label class="check-item"><input type="checkbox" id="send-ch" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">5. Canais</span></label>
+            <label class="check-item"><input type="checkbox" id="send-f" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">6. Finalização</span></label>
           </div>
         </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Credenciais enviadas ao cliente</label>
-            <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="i-cred" value="SIM"> SIM</label>
-              <label class="radio-opt"><input type="radio" name="i-cred" value="NÃO"> NÃO</label>
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <label>Capacitações agendadas (datas e horários)</label>
-          <input type="text" id="i-caps" placeholder="Ex: 10/07 às 14h, 12/07 às 10h">
-        </div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn btn-ghost" onclick="prev(2)">← Voltar</button>
-        <button class="btn btn-primary" onclick="next(2)">Próximo →</button>
-      </div>
-    </div>
 
-    <div class="section-card" id="step-3">
-      <div class="section-header">
-        <div class="section-icon">🎓</div>
-        <div>
-          <div class="section-title">Capacitação realizada</div>
-          <div class="section-sub">Datas, participantes e conteúdos</div>
-        </div>
-      </div>
-      <div class="field-group">
-        <div class="field-row">
-          <div class="field">
-            <label>Data(s) da capacitação</label>
-            <input type="text" id="c-datas" placeholder="Ex: 10/07/2025, 12/07/2025">
-          </div>
-          <div class="field">
-            <label>Quantidade de capacitações</label>
-            <input type="text" id="c-qtd" placeholder="Ex: 2">
-          </div>
-        </div>
-        <div class="field">
-          <label>Participantes</label>
-          <textarea id="c-participantes" placeholder="Ex: João (supervisor), Maria (atendente), Pedro (TI)"></textarea>
-        </div>
-        <div class="field">
-          <label>Conteúdos abordados</label>
-          <textarea id="c-conteudos" placeholder="Ex: Uso do painel, configuração de respostas automáticas, integração WhatsApp"></textarea>
-        </div>
-        <div class="field">
-          <label>Avaliação do processo</label>
-          <div class="radio-group">
-            <label class="radio-opt"><input type="radio" name="c-aval" value="Excelente"> 😄 Excelente</label>
-            <label class="radio-opt"><input type="radio" name="c-aval" value="Boa"> 🙂 Boa</label>
-            <label class="radio-opt"><input type="radio" name="c-aval" value="Regular"> 😐 Regular</label>
-            <label class="radio-opt"><input type="radio" name="c-aval" value="Ruim"> 😕 Ruim</label>
-          </div>
-        </div>
-        <div class="field">
-          <label>Observações</label>
-          <textarea id="c-obs" placeholder="Dificuldades, destaques, próximos passos..."></textarea>
-        </div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn btn-ghost" onclick="prev(3)">← Voltar</button>
-        <button class="btn btn-primary" onclick="next(3)">Próximo →</button>
-      </div>
-    </div>
-
-    <div class="section-card" id="step-4">
-      <div class="section-header">
-        <div class="section-icon">📱</div>
-        <div>
-          <div class="section-title">Ativação de canais</div>
-          <div class="section-sub">WhatsApp, Instagram, Facebook e PBX</div>
-        </div>
-      </div>
-      <div class="field-group">
-
-        <div class="section-badge">💬 WhatsApp</div>
-        <div class="field-row">
-          <div class="field">
-            <label>ID do número</label>
-            <input type="text" id="ch-wa-id" placeholder="Ex: 5511999999999">
-          </div>
-          <div class="field">
-            <label>Nome WhatsApp</label>
-            <input type="text" id="ch-wa-nome" placeholder="Ex: Empresa ABC Suporte">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label>Número</label>
-            <input type="text" id="ch-wa-num" placeholder="+55 11 99999-9999">
-          </div>
-          <div class="field">
-            <label>Templates</label>
-            <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="ch-wa-tpl" value="Cliente orientado ✅"> Orientado ✅</label>
-              <label class="radio-opt"><input type="radio" name="ch-wa-tpl" value="Pendente"> Pendente</label>
+        <div class="send-panel">
+          <div class="send-field field">
+            <label>ID da tarefa no ClickUp</label>
+            <input type="text" id="s-taskid" placeholder="Ex: abc123xy (da URL do card)">
+            <div class="modal-hint" style="margin-top:6px">
+              Abra o card do cliente no ClickUp. A URL termina em <strong>/t/abc123xy</strong> — copie essa parte final.
             </div>
           </div>
         </div>
 
-        <div class="divider"></div>
-        <div class="section-badge">📸 Instagram</div>
-        <div class="field-row">
-          <div class="field">
-            <label>@ ativado</label>
-            <input type="text" id="ch-ig-at" placeholder="@empresa">
-          </div>
-          <div class="field">
-            <label>Estado</label>
-            <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="ch-ig-est" value="Ativo ✅"> Ativo ✅</label>
-              <label class="radio-opt"><input type="radio" name="ch-ig-est" value="Pendente"> Pendente</label>
-              <label class="radio-opt"><input type="radio" name="ch-ig-est" value="N/A"> N/A</label>
-            </div>
+        <div id="preview-box" class="preview-box"></div>
+
+        <div class="nav-btns" style="margin-top:1rem">
+          <button class="btn btn-ghost" onclick="prev(6)">← Voltar</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost" onclick="showPreview()">👁 Prévia</button>
+            <button class="btn btn-green" id="send-btn" onclick="sendToClickUp()">↗ Enviar comentário</button>
           </div>
         </div>
 
-        <div class="divider"></div>
-        <div class="section-badge">📘 Facebook</div>
-        <div class="field-row">
-          <div class="field">
-            <label>Página ativada</label>
-            <input type="text" id="ch-fb-pag" placeholder="Nome ou URL da página">
-          </div>
-          <div class="field">
-            <label>Estado</label>
-            <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="ch-fb-est" value="Ativo ✅"> Ativo ✅</label>
-              <label class="radio-opt"><input type="radio" name="ch-fb-est" value="Pendente"> Pendente</label>
-              <label class="radio-opt"><input type="radio" name="ch-fb-est" value="N/A"> N/A</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-        <div class="section-badge">📞 PBX</div>
-        <div class="field">
-          <label>Dados do técnico / informações</label>
-          <input type="text" id="ch-pbx" placeholder="Ex: Configurado com ramal 100, técnico João — ou N/A">
-        </div>
-
-        <div class="field">
-          <label>Observações gerais</label>
-          <textarea id="ch-obs" placeholder="Informações adicionais sobre os canais..."></textarea>
-        </div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn btn-ghost" onclick="prev(4)">← Voltar</button>
-        <button class="btn btn-primary" onclick="next(4)">Próximo →</button>
-      </div>
-    </div>
-
-    <div class="section-card" id="step-5">
-      <div class="section-header">
-        <div class="section-icon">✔️</div>
-        <div>
-          <div class="section-title">Processo finalizado</div>
-          <div class="section-sub">Resumo e acompanhamento pós-ativação</div>
-        </div>
-      </div>
-      <div class="field-group">
-        <div class="field-row">
-          <div class="field">
-            <label>Data de conclusão</label>
-            <input type="date" id="f-data">
-          </div>
-          <div class="field">
-            <label>Cliente está operacional?</label>
-            <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="f-op" value="SIM"> SIM ✅</label>
-              <label class="radio-opt"><input type="radio" name="f-op" value="NÃO"> NÃO</label>
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <label>Etapas concluídas</label>
-          <div class="checklist">
-            <label class="check-item"><input type="checkbox" id="f-chk1"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Onboarding / Kickoff</span></label>
-            <label class="check-item"><input type="checkbox" id="f-chk2"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Verificação de portfólio</span></label>
-            <label class="check-item"><input type="checkbox" id="f-chk3"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Instalação</span></label>
-            <label class="check-item"><input type="checkbox" id="f-chk4"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Capacitação</span></label>
-            <label class="check-item"><input type="checkbox" id="f-chk5"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Ativação de canais</span></label>
-          </div>
-        </div>
-        <div class="field">
-          <label>Início do acompanhamento (3 dias úteis após conclusão)</label>
-          <input type="date" id="f-followup">
-        </div>
-        <div class="field">
-          <label>Status do acompanhamento</label>
-          <div class="radio-group">
-            <label class="radio-opt"><input type="radio" name="f-follow-status" value="Agendado"> Agendado</label>
-            <label class="radio-opt"><input type="radio" name="f-follow-status" value="Em curso"> Em curso</label>
-            <label class="radio-opt"><input type="radio" name="f-follow-status" value="Concluído"> Concluído</label>
-          </div>
-        </div>
-        <div class="field">
-          <label>Observações finais</label>
-          <textarea id="f-obs" placeholder="Feedback do cliente, pontos de atenção para suporte..."></textarea>
-        </div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn btn-ghost" onclick="prev(5)">← Voltar</button>
-        <button class="btn btn-primary" onclick="next(5)">Ver e enviar →</button>
-      </div>
-    </div>
-
-    <div class="section-card" id="step-6">
-      <div class="section-header">
-        <div class="section-icon">↗</div>
-        <div>
-          <div class="section-title">Enviar para o ClickUp</div>
-          <div class="section-sub">Escolha quais etapas enviar e insira o ID da tarefa</div>
-        </div>
+        <div class="status-msg" id="status-msg"></div>
       </div>
 
-      <div class="field" style="margin-bottom: 1.5rem;">
-        <label>O que você deseja enviar?</label>
-        <div class="checklist">
-          <label class="check-item"><input type="checkbox" id="send-k" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">1. Kickoff</span></label>
-          <label class="check-item"><input type="checkbox" id="send-p" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">2. Portfólio</span></label>
-          <label class="check-item"><input type="checkbox" id="send-i" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">3. Instalação</span></label>
-          <label class="check-item"><input type="checkbox" id="send-c" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">4. Capacitação</span></label>
-          <label class="check-item"><input type="checkbox" id="send-ch" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">5. Canais</span></label>
-          <label class="check-item"><input type="checkbox" id="send-f" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">6. Finalização</span></label>
-        </div>
-      </div>
-
-      <div class="send-panel">
-        <div class="send-field field">
-          <label>ID da tarefa no ClickUp</label>
-          <input type="text" id="s-taskid" placeholder="Ex: abc123xy (da URL do card)">
-          <div class="modal-hint" style="margin-top:6px">
-            Abra o card do cliente no ClickUp. A URL termina em <strong>/t/abc123xy</strong> — copie essa parte final.
-          </div>
-        </div>
-      </div>
-
-      <div id="preview-box" class="preview-box"></div>
-
-      <div class="nav-btns" style="margin-top:1rem">
-        <button class="btn btn-ghost" onclick="prev(6)">← Voltar</button>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-ghost" onclick="showPreview()">👁 Prévia</button>
-          <button class="btn btn-green" id="send-btn" onclick="sendToClickUp()">↗ Enviar comentário</button>
-        </div>
-      </div>
-
-      <div class="status-msg" id="status-msg"></div>
-    </div>
-
-  </main>
+    </main>
+  </div>
 </div>
 
 <script>
+  // --- SISTEMA DE LOGIN ---
+  const authUsers = {
+    "bruno": "senha123",
+    "isabella": "senha456",
+    "blitz": "senha123"
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('hola_logged_in') === 'true') {
+      unlockApp();
+    }
+  });
+
+  function handleLogin() {
+    const user = document.getElementById('login-user').value.trim().toLowerCase();
+    const pass = document.getElementById('login-pass').value.trim();
+    const errorMsg = document.getElementById('login-error');
+
+    if (authUsers[user] && authUsers[user] === pass) {
+      sessionStorage.setItem('hola_logged_in', 'true');
+      unlockApp();
+    } else {
+      errorMsg.style.display = 'block';
+    }
+  }
+
+  function unlockApp() {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('app-content').classList.remove('hidden');
+  }
+
+  // --- LÓGICA DO APP ---
   let currentStep = 0;
   const totalSteps = 7;
 
@@ -911,7 +985,6 @@
     const cliente = v('k-cliente') || 'Cliente';
     const lines = [];
 
-    // Checa quais opções foram selecionadas na etapa 6
     const sendK = document.getElementById('send-k').checked;
     const sendP = document.getElementById('send-p').checked;
     const sendI = document.getElementById('send-i').checked;
@@ -1010,7 +1083,7 @@
       return "⚠️ Nenhuma etapa foi selecionada para envio.";
     }
 
-    return lines.join('\n').trim(); // O .trim() remove espaços em branco extras no final
+    return lines.join('\n').trim();
   }
 
   function showPreview() {
