@@ -1000,90 +1000,102 @@
     const sendCh = document.getElementById('send-ch').checked;
     const sendF = document.getElementById('send-f').checked;
 
-    if (sendK) {
+   if (sendK) {
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
       lines.push(`📋 KICKOFF REALIZADO — ${cliente}`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`Link ¡Hola!: ${v('k-link') || '—'}`);
+      lines.push(`Enlace ¡Hola!: ${v('k-link') || '—'}`);
       lines.push(`Sucursales: ${v('k-sucursales') || '—'}`);
       lines.push(`Servicios ofrecidos: ${v('k-servicios') || '—'}`);
       lines.push(`Equipo: ${v('k-equipo') || '—'}`);
       lines.push(`Departamentos: ${v('k-departamentos') || '—'}`);
-      lines.push(`Proceso a melhorar: ${v('k-proceso') || '—'}`);
-      if (v('k-obs')) lines.push(`Observações: ${v('k-obs')}`);
+      lines.push(`Proceso a mejorar: ${v('k-proceso') || '—'}`);
+      if (v('k-obs')) lines.push(`Observaciones: ${v('k-obs')}`);
       lines.push(``);
     }
 
     if (sendP) {
-      lines.push(`✅ VERIFICAÇÃO DE PORTFÓLIO`);
+      lines.push(`✅ VERIFICACIÓN DE PORTAFOLIO`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
       lines.push(`Estado: ${radio('p-status')}`);
-      lines.push(`ID do Portfólio: ${v('p-portfolio-id') || '—'}`);
-      lines.push(`Site: ${v('p-site') || '—'}`);
+      lines.push(`ID del Portafolio: ${v('p-portfolio-id') || '—'}`);
+      lines.push(`Sitio web: ${v('p-site') || '—'}`);
       lines.push(`Facebook: ${v('p-facebook') || '—'}`);
-      lines.push(`E-mail: ${v('p-email') || '—'}`);
-      lines.push(`Status de envio: ${radio('p-envio')}`);
+      lines.push(`Correo electrónico: ${v('p-email') || '—'}`);
+      lines.push(`Estado de envío: ${radio('p-envio')}`);
       lines.push(``);
     }
 
     if (sendI) {
-      lines.push(`🔧 INSTALAÇÃO REALIZADA`);
+      lines.push(`🔧 INSTALACIÓN REALIZADA`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`Link ¡Hola!: ${v('i-link') || '—'}`);
+      lines.push(`Enlace ¡Hola!: ${v('i-link') || '—'}`);
       lines.push(`Clave: ${v('i-clave') || '—'}`);
       lines.push(`País: ${v('i-pais') || '—'}`);
-      lines.push(`Plano: ${v('i-plan') || '—'}`);
+      lines.push(`Plan: ${v('i-plan') || '—'}`);
       lines.push(`Plataforma configurada: ${chk('i-chk1')}`);
-      lines.push(`Integrações realizadas: ${chk('i-chk2')}`);
-      lines.push(`Senhas criadas e geradas: ${chk('i-chk3')}`);
-      lines.push(`Credenciais enviadas ao cliente: ${radio('i-cred')}`);
-      lines.push(`Capacitações agendadas: ${v('i-caps') || '—'}`);
+      lines.push(`Integraciones realizadas: ${chk('i-chk2')}`);
+      lines.push(`Contraseñas creadas y generadas: ${chk('i-chk3')}`);
+      lines.push(`Credenciales enviadas al cliente: ${radio('i-cred')}`);
+      lines.push(`Capacitaciones programadas: ${v('i-caps') || '—'}`);
       lines.push(``);
     }
 
     if (sendC) {
-      lines.push(`🎓 CAPACITAÇÃO REALIZADA`);
+      lines.push(`🎓 CAPACITACIÓN REALIZADA`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`Data(s): ${v('c-datas') || '—'}`);
-      lines.push(`Quantidade: ${v('c-qtd') || '—'}`);
+      lines.push(`Fecha(s): ${v('c-datas') || '—'}`);
+      lines.push(`Cantidad: ${v('c-qtd') || '—'}`);
       lines.push(`Participantes: ${v('c-participantes') || '—'}`);
-      lines.push(`Conteúdos: ${v('c-conteudos') || '—'}`);
-      lines.push(`Avaliação: ${radio('c-aval')}`);
-      if (v('c-obs')) lines.push(`Observações: ${v('c-obs')}`);
+      lines.push(`Contenidos: ${v('c-conteudos') || '—'}`);
+      lines.push(`Evaluación: ${radio('c-aval')}`);
+      if (v('c-obs')) lines.push(`Observaciones: ${v('c-obs')}`);
       lines.push(``);
     }
 
     if (sendCh) {
-      lines.push(`📱 ATIVAÇÃO DE CANAIS`);
+      lines.push(`📱 ACTIVACIÓN DE CANALES`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
       lines.push(`WhatsApp`);
       lines.push(`  ID: ${v('ch-wa-id') || '—'}`);
-      lines.push(`  Nome: ${v('ch-wa-nome') || '—'}`);
+      lines.push(`  Nombre: ${v('ch-wa-nome') || '—'}`);
       lines.push(`  Número: ${v('ch-wa-num') || '—'}`);
-      lines.push(`  Templates: ${radio('ch-wa-tpl')}`);
+      lines.push(`  Plantillas: ${radio('ch-wa-tpl')}`);
       lines.push(`Instagram`);
       lines.push(`  @: ${v('ch-ig-at') || '—'} — Estado: ${radio('ch-ig-est')}`);
       lines.push(`Facebook`);
       lines.push(`  Página: ${v('ch-fb-pag') || '—'} — Estado: ${radio('ch-fb-est')}`);
       lines.push(`PBX: ${v('ch-pbx') || 'N/A'}`);
-      if (v('ch-obs')) lines.push(`Observações: ${v('ch-obs')}`);
+      if (v('ch-obs')) lines.push(`Observaciones: ${v('ch-obs')}`);
+      lines.push(``);
+    }
+    
+    // NOVO BLOCO: GO-LIVE
+    if (sendGL) {
+      lines.push(`🚀 GO-LIVE REALIZADO`);
+      lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+      lines.push(`Fecha de lanzamiento: ${v('gl-data') || '—'}`);
+      lines.push(`Estado del sistema: ${radio('gl-status')}`);
+      lines.push(`Impacto inicial: ${v('gl-impacto') || '—'}`);
+      if (v('gl-obs')) lines.push(`Observaciones de lanzamiento: ${v('gl-obs')}`);
       lines.push(``);
     }
 
     if (sendF) {
-      lines.push(`✔️ PROCESSO FINALIZADO`);
+      lines.push(`✔️ PROCESO FINALIZADO`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`Data de conclusão: ${v('f-data') || '—'}`);
-      lines.push(`Cliente operacional: ${radio('f-op')}`);
+      lines.push(`Fecha de conclusión: ${v('f-data') || '—'}`);
+      lines.push(`Cliente operativo: ${radio('f-op')}`);
       lines.push(`Etapas:`);
       lines.push(`  Kickoff: ${chk('f-chk1')}`);
-      lines.push(`  Verificação: ${chk('f-chk2')}`);
-      lines.push(`  Instalação: ${chk('f-chk3')}`);
-      lines.push(`  Capacitação: ${chk('f-chk4')}`);
-      lines.push(`  Ativação: ${chk('f-chk5')}`);
-      lines.push(`Início do acompanhamento: ${v('f-followup') || '—'}`);
-      lines.push(`Status do acompanhamento: ${radio('f-follow-status')}`);
-      if (v('f-obs')) lines.push(`Observações finais: ${v('f-obs')}`);
+      lines.push(`  Verificación: ${chk('f-chk2')}`);
+      lines.push(`  Instalación: ${chk('f-chk3')}`);
+      lines.push(`  Capacitación: ${chk('f-chk4')}`);
+      lines.push(`  Activación: ${chk('f-chk5')}`);
+      lines.push(`  Go-Live: ${chk('f-chk6')}`); // Adicionado checklist do Go-Live
+      lines.push(`Inicio del seguimiento: ${v('f-followup') || '—'}`);
+      lines.push(`Estado del seguimiento: ${radio('f-follow-status')}`);
+      if (v('f-obs')) lines.push(`Observaciones finales: ${v('f-obs')}`);
       lines.push(``);
     }
 
