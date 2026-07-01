@@ -1070,17 +1070,6 @@
       lines.push(``);
     }
     
-    // NOVO BLOCO: GO-LIVE
-    if (sendGL) {
-      lines.push(`🚀 GO-LIVE REALIZADO`);
-      lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`Fecha de lanzamiento: ${v('gl-data') || '—'}`);
-      lines.push(`Estado del sistema: ${radio('gl-status')}`);
-      lines.push(`Impacto inicial: ${v('gl-impacto') || '—'}`);
-      if (v('gl-obs')) lines.push(`Observaciones de lanzamiento: ${v('gl-obs')}`);
-      lines.push(``);
-    }
-
     if (sendF) {
       lines.push(`✔️ PROCESO FINALIZADO`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
