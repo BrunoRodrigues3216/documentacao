@@ -929,6 +929,14 @@
             <label>Motivo de la baja y alternativas presentadas</label>
             <textarea id="b-motivo" placeholder="Ej: Cliente solicitó la baja debido a ser dificultoso el proceso..."></textarea>
           </div>
+          <div class="field">
+            <label>IP</label>
+            <textarea id="b-ip"></textarea>
+          </div>
+          <div class="field">
+            <label>Clave de acceso</label>
+            <textarea id="b-clave"></textarea>
+          </div>
         </div>
         <div class="nav-btns">
           <button class="btn btn-ghost" onclick="prev(7)">← Voltar</button>
@@ -1198,6 +1206,8 @@
       }
       lines.push(`Fecha de la solicitud: ${formattedBData || '—'}`);
       lines.push(`Link de la VM: ${v('b-link') || '—'}`);
+      lines.push(`Clave de acceso: ${v('b-clave') || '—'}`);
+      lines.push(`IP: ${v('b-ip') || '—'}`);
       lines.push(`Motivo de la baja y alternativas presentadas:`);
       lines.push(`${v('b-motivo') || '—'}`);
       lines.push(``);
