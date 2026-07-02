@@ -503,12 +503,18 @@
           <span class="step-num">4</span> Capacitação
         </button>
         <button class="step-item" id="nav-4" onclick="goTo(4)">
-          <span class="step-num">5</span> Canais
+          <span class="step-num">5</span> Go-Live
         </button>
         <button class="step-item" id="nav-5" onclick="goTo(5)">
-          <span class="step-num">6</span> Finalização
+          <span class="step-num">6</span> Canais
         </button>
         <button class="step-item" id="nav-6" onclick="goTo(6)">
+          <span class="step-num">7</span> Finalização
+        </button>
+        <button class="step-item" id="nav-7" onclick="goTo(7)">
+          <span class="step-num">8</span> Baja
+        </button>
+        <button class="step-item" id="nav-8" onclick="goTo(8)">
           <span class="step-num">↗</span> Enviar
         </button>
       </div>
@@ -706,9 +712,9 @@
             <label>Avaliação do processo</label>
             <div class="radio-group">
               <label class="radio-opt"><input type="radio" name="c-aval" value="Excelente"> 😄 Excelente</label>
-              <label class="radio-opt"><input type="radio" name="c-aval" value="Boa"> 🙂 Boa</label>
+              <label class="radio-opt"><input type="radio" name="c-aval" value="Buena"> 🙂 Buena</label>
               <label class="radio-opt"><input type="radio" name="c-aval" value="Regular"> 😐 Regular</label>
-              <label class="radio-opt"><input type="radio" name="c-aval" value="Ruim"> 😕 Ruim</label>
+              <label class="radio-opt"><input type="radio" name="c-aval" value="Mala"> 😕 Mala</label>
             </div>
           </div>
           <div class="field">
@@ -722,7 +728,41 @@
         </div>
       </div>
 
+      <!-- NOVA ABA: GO-LIVE -->
       <div class="section-card" id="step-4">
+        <div class="section-header">
+          <div class="section-icon">🚀</div>
+          <div>
+            <div class="section-title">Go-Live realizado</div>
+            <div class="section-sub">Acompanhamento de entrada em produção</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <div class="field">
+              <label>Data do Go-Live</label>
+              <input type="date" id="gl-data">
+            </div>
+            <div class="field">
+              <label>Status do Go-Live</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="gl-status" value="Exitoso ✅"> Exitoso ✅</label>
+                <label class="radio-opt"><input type="radio" name="gl-status" value="Con problemas ⚠️"> Con problemas ⚠️</label>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Observações do Go-Live</label>
+            <textarea id="gl-obs" placeholder="Detalhes da operação, instabilidades, ou sucesso..."></textarea>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(4)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(4)">Próximo →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-5">
         <div class="section-header">
           <div class="section-icon">📱</div>
           <div>
@@ -804,12 +844,12 @@
           </div>
         </div>
         <div class="nav-btns">
-          <button class="btn btn-ghost" onclick="prev(4)">← Voltar</button>
-          <button class="btn btn-primary" onclick="next(4)">Próximo →</button>
+          <button class="btn btn-ghost" onclick="prev(5)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(5)">Próximo →</button>
         </div>
       </div>
 
-      <div class="section-card" id="step-5">
+      <div class="section-card" id="step-6">
         <div class="section-header">
           <div class="section-icon">✔️</div>
           <div>
@@ -826,8 +866,8 @@
             <div class="field">
               <label>Cliente está operacional?</label>
               <div class="radio-group">
-                <label class="radio-opt"><input type="radio" name="f-op" value="SIM"> SIM ✅</label>
-                <label class="radio-opt"><input type="radio" name="f-op" value="NÃO"> NÃO</label>
+                <label class="radio-opt"><input type="radio" name="f-op" value="SÍ"> SÍ ✅</label>
+                <label class="radio-opt"><input type="radio" name="f-op" value="NO"> NO</label>
               </div>
             </div>
           </div>
@@ -839,6 +879,7 @@
               <label class="check-item"><input type="checkbox" id="f-chk3"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Instalação</span></label>
               <label class="check-item"><input type="checkbox" id="f-chk4"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Capacitação</span></label>
               <label class="check-item"><input type="checkbox" id="f-chk5"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Ativação de canais</span></label>
+              <label class="check-item"><input type="checkbox" id="f-chk6"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">Go-Live</span></label>
             </div>
           </div>
           <div class="field">
@@ -848,9 +889,9 @@
           <div class="field">
             <label>Status do acompanhamento</label>
             <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Agendado"> Agendado</label>
-              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Em curso"> Em curso</label>
-              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Concluído"> Concluído</label>
+              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Programado"> Programado</label>
+              <label class="radio-opt"><input type="radio" name="f-follow-status" value="En curso"> En curso</label>
+              <label class="radio-opt"><input type="radio" name="f-follow-status" value="Concluido"> Concluido</label>
             </div>
           </div>
           <div class="field">
@@ -859,12 +900,43 @@
           </div>
         </div>
         <div class="nav-btns">
-          <button class="btn btn-ghost" onclick="prev(5)">← Voltar</button>
-          <button class="btn btn-primary" onclick="next(5)">Ver e enviar →</button>
+          <button class="btn btn-ghost" onclick="prev(6)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(6)">Próximo →</button>
         </div>
       </div>
 
-      <div class="section-card" id="step-6">
+      <!-- NOVA ABA: DOCUMENTO DE BAJA -->
+      <div class="section-card" id="step-7">
+        <div class="section-header">
+          <div class="section-icon">🛑</div>
+          <div>
+            <div class="section-title">Documento de Baja</div>
+            <div class="section-sub">Registro de cancelamento e documentação</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-row">
+            <div class="field">
+              <label>Fecha de la solicitud</label>
+              <input type="date" id="b-data">
+            </div>
+            <div class="field">
+              <label>Link de la VM</label>
+              <input type="url" id="b-link" placeholder="https://empresa.holasuite.com/auth/login">
+            </div>
+          </div>
+          <div class="field">
+            <label>Motivo de la baja y alternativas presentadas</label>
+            <textarea id="b-motivo" placeholder="Ej: Cliente solicitó la baja debido a ser dificultoso el proceso..."></textarea>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="btn btn-ghost" onclick="prev(7)">← Voltar</button>
+          <button class="btn btn-primary" onclick="next(7)">Ver e enviar →</button>
+        </div>
+      </div>
+
+      <div class="section-card" id="step-8">
         <div class="section-header">
           <div class="section-icon">↗</div>
           <div>
@@ -880,8 +952,10 @@
             <label class="check-item"><input type="checkbox" id="send-p" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">2. Portfólio</span></label>
             <label class="check-item"><input type="checkbox" id="send-i" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">3. Instalação</span></label>
             <label class="check-item"><input type="checkbox" id="send-c" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">4. Capacitação</span></label>
-            <label class="check-item"><input type="checkbox" id="send-ch" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">5. Canais</span></label>
-            <label class="check-item"><input type="checkbox" id="send-f" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">6. Finalização</span></label>
+            <label class="check-item"><input type="checkbox" id="send-gl" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">5. Go-Live</span></label>
+            <label class="check-item"><input type="checkbox" id="send-ch" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">6. Canais</span></label>
+            <label class="check-item"><input type="checkbox" id="send-f" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">7. Finalização</span></label>
+            <label class="check-item"><input type="checkbox" id="send-b" checked onchange="showPreview()"><span class="check-box"><span class="check-tick">✓</span></span><span class="check-label">8. Baja</span></label>
           </div>
         </div>
 
@@ -898,7 +972,7 @@
         <div id="preview-box" class="preview-box"></div>
 
         <div class="nav-btns" style="margin-top:1rem">
-          <button class="btn btn-ghost" onclick="prev(6)">← Voltar</button>
+          <button class="btn btn-ghost" onclick="prev(8)">← Voltar</button>
           <div style="display:flex;gap:8px">
             <button class="btn btn-ghost" onclick="showPreview()">👁 Prévia</button>
             <button class="btn btn-green" id="send-btn" onclick="sendToClickUp()">↗ Enviar comentário</button>
@@ -954,7 +1028,7 @@
 
   // --- LÓGICA DO APP ---
   let currentStep = 0;
-  const totalSteps = 7;
+  const totalSteps = 9;
 
   function v(id) {
     const el = document.getElementById(id);
@@ -979,7 +1053,7 @@
     document.getElementById(`step-${currentStep}`).classList.add('active');
     document.getElementById(`nav-${currentStep}`).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (step === 6) showPreview();
+    if (step === 8) showPreview();
   }
 
   function next(step) {
@@ -997,8 +1071,10 @@
     const sendP = document.getElementById('send-p').checked;
     const sendI = document.getElementById('send-i').checked;
     const sendC = document.getElementById('send-c').checked;
+    const sendGl = document.getElementById('send-gl').checked;
     const sendCh = document.getElementById('send-ch').checked;
     const sendF = document.getElementById('send-f').checked;
+    const sendB = document.getElementById('send-b').checked;
 
    if (sendK) {
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
@@ -1053,6 +1129,20 @@
       lines.push(``);
     }
 
+    if (sendGl) {
+      lines.push(`🚀 GO-LIVE`);
+      lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+      let formattedGlData = v('gl-data');
+      if (formattedGlData) {
+        const parts = formattedGlData.split('-');
+        formattedGlData = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      lines.push(`Fecha de Go-Live: ${formattedGlData || '—'}`);
+      lines.push(`Estado: ${radio('gl-status')}`);
+      if (v('gl-obs')) lines.push(`Observaciones: ${v('gl-obs')}`);
+      lines.push(``);
+    }
+
     if (sendCh) {
       lines.push(`📱 ACTIVACIÓN DE CANALES`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
@@ -1073,7 +1163,12 @@
     if (sendF) {
       lines.push(`✔️ PROCESO FINALIZADO`);
       lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`Fecha de conclusión: ${v('f-data') || '—'}`);
+      let formattedFData = v('f-data');
+      if (formattedFData) {
+        const parts = formattedFData.split('-');
+        formattedFData = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      lines.push(`Fecha de conclusión: ${formattedFData || '—'}`);
       lines.push(`Cliente operativo: ${radio('f-op')}`);
       lines.push(`Etapas:`);
       lines.push(`  Kickoff: ${chk('f-chk1')}`);
@@ -1081,10 +1176,30 @@
       lines.push(`  Instalación: ${chk('f-chk3')}`);
       lines.push(`  Capacitación: ${chk('f-chk4')}`);
       lines.push(`  Activación: ${chk('f-chk5')}`);
-      lines.push(`  Go-Live: ${chk('f-chk6')}`); // Adicionado checklist do Go-Live
-      lines.push(`Inicio del seguimiento: ${v('f-followup') || '—'}`);
+      lines.push(`  Go-Live: ${chk('f-chk6')}`);
+      let formattedFollowup = v('f-followup');
+      if (formattedFollowup) {
+        const parts = formattedFollowup.split('-');
+        formattedFollowup = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      lines.push(`Inicio del seguimiento: ${formattedFollowup || '—'}`);
       lines.push(`Estado del seguimiento: ${radio('f-follow-status')}`);
       if (v('f-obs')) lines.push(`Observaciones finales: ${v('f-obs')}`);
+      lines.push(``);
+    }
+
+    if (sendB) {
+      lines.push(`🛑 DOCUMENTO DE BAJA`);
+      lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+      let formattedBData = v('b-data');
+      if (formattedBData) {
+        const parts = formattedBData.split('-');
+        formattedBData = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      lines.push(`Fecha de la solicitud: ${formattedBData || '—'}`);
+      lines.push(`Link de la VM: ${v('b-link') || '—'}`);
+      lines.push(`Motivo de la baja y alternativas presentadas:`);
+      lines.push(`${v('b-motivo') || '—'}`);
       lines.push(``);
     }
 
@@ -1186,6 +1301,8 @@
 
   // Set today as default conclusion date
   document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+  document.getElementById('b-data').value = new Date().toISOString().split('T')[0];
+  document.getElementById('gl-data').value = new Date().toISOString().split('T')[0];
 </script>
 </body>
 </html>
